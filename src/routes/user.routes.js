@@ -1,10 +1,22 @@
 import {Router} from "express"
 import { registerUser } from "../controllers/user.controller.js"
-
+import {upload} from "../middlewares/multer.middleware.js"
 const router = Router()
 
-router.route("/register").post(registerUser) // will activate registerUser controller
-// router.route("/login").post(loginUser)   // will activate loginUser controller
+router.route("/register").post(
+    //applying multer middleware
+    upload.fields([
+        {
+            name: "avatar",
+            maxCount: 1
+        },
+        {
+            name: "coverImage",
+            maxCount: 1
+        }
+    ]),
+    registerUser
+    ) // will activate registerUser controller
 
 
 
